@@ -1,4 +1,4 @@
-package org.mikita.datastructures.trees;
+package org.mikita.datastructure.tree;
 
 public class SegmentTree {
 
