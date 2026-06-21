@@ -4,17 +4,15 @@ public class SegmentTree {
 
     private final int size;
     private final int[] nodes;
-    private final int[] data;
 
     public SegmentTree(int[] data) {
         size = data.length;
         this.nodes = new int[size * 4];
-        this.data = data;
 
-        buildTree(0, 0, size - 1);
+        buildTree(0, 0, size - 1, data);
     }
 
-    private void buildTree(int node, int left, int right) {
+    private void buildTree(int node, int left, int right, int[] data) {
         if(left == right) {
             nodes[node] = data[left];
             return;
@@ -22,8 +20,8 @@ public class SegmentTree {
 
         int mid = left + (right - left) / 2;
 
-        buildTree(node * 2 + 1, left, mid);
-        buildTree(node * 2 + 2, mid + 1, right);
+        buildTree(node * 2 + 1, left, mid, data);
+        buildTree(node * 2 + 2, mid + 1, right, data);
 
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }
@@ -47,29 +45,65 @@ public class SegmentTree {
                 query(node * 2 + 2, mid + 1, right, qLeft, qRight);
     }
 
-    public void updateAndRebuild(int targetIndex, int targetValue) {
-        data[targetIndex] = targetValue;
-        buildTree(0, 0, size - 1);
+    public void set(int targetIndex, int targetValue) {
+        set(0, 0, size - 1, targetIndex, targetValue);
     }
 
-    public void update(int targetIndex, int targetValue) {
-        update(0, 0, size - 1, targetIndex, targetValue);
-    }
-
-    private void update(int node, int left, int right, int targetIndex, int targetValue) {
+    private void set(int node, int left, int right, int targetIndex, int targetValue) {
         if(left == right) {
             nodes[node] = targetValue;
-            data[left] = targetValue;
             return;
         }
 
         int mid = left + (right - left) / 2;
 
         if(targetIndex <= mid) {
-            update(node * 2 + 1, left, mid, targetIndex, targetValue);
+            set(node * 2 + 1, left, mid, targetIndex, targetValue);
         } else {
-            update(node * 2 + 2, mid + 1, right, targetIndex, targetValue);
+            set(node * 2 + 2, mid + 1, right, targetIndex, targetValue);
         }
+
+        nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
+    }
+
+    public void add(int targetIndex, int targetValue) {
+        add(0, 0, size - 1, targetIndex, targetValue);
+    }
+
+    private void add(int node, int left, int right, int targetIndex, int targetValue) {
+        if(left == right) {
+            nodes[node] += targetValue;
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        if(targetIndex <= mid) {
+            add(node * 2 + 1, left, mid, targetIndex, targetValue);
+        } else {
+            add(node * 2 + 2, mid + 1, right, targetIndex, targetValue);
+        }
+
+        nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
+    }
+
+    public void addOnRange(int targetLeft, int targetRight, int targetValue) {
+        addOnRange(0, 0, size - 1, targetLeft, targetRight, targetValue);
+    }
+
+    private void addOnRange(int node, int left, int right, int targetLeft, int targetRight, int targetValue) {
+        if(targetLeft > right || targetRight < left) {
+            return;
+        }
+
+        if(left == right) {
+            nodes[node] += targetValue;
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+        addOnRange(node * 2 + 1, left, mid, targetLeft, targetRight, targetValue);
+        addOnRange(node * 2 + 2, mid + 1, right, targetLeft, targetRight, targetValue);
 
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }
