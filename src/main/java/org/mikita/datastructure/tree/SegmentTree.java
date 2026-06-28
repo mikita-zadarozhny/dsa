@@ -2,109 +2,89 @@ package org.mikita.datastructure.tree;
 
 public class SegmentTree {
 
-    private final int size;
-    private final int[] nodes;
+    private static class Node {
+        private int value;
+        private final int leftRangeBoundary;
+        private final int rightRangeBoundary;
+        private Node leftNode;
+        private Node rightNode;
 
-    public SegmentTree(int[] data) {
-        size = data.length;
-        this.nodes = new int[size * 4];
-
-        buildTree(0, 0, size - 1, data);
-    }
-
-    private void buildTree(int node, int left, int right, int[] data) {
-        if(left == right) {
-            nodes[node] = data[left];
-            return;
+        private Node(int left, int right) {
+            leftRangeBoundary = left;
+            rightRangeBoundary = right;
         }
 
-        int mid = left + (right - left) / 2;
+        private Node(int value, int left, int right) {
+            this.value = value;
+            leftRangeBoundary = left;
+            rightRangeBoundary = right;
+        }
 
-        buildTree(node * 2 + 1, left, mid, data);
-        buildTree(node * 2 + 2, mid + 1, right, data);
+        private static Node buildNode(int left, int right, int[] data) {
+            if(left == right) {
+                return new Node(data[left], left, right);
+            }
 
-        nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
+            int mid = left + (right - left) / 2;
+
+            Node node = new Node(left, right);
+            node.leftNode = buildNode(left, mid, data);
+            node.rightNode = buildNode(mid + 1, right, data);
+
+            node.value = node.leftNode.value + node.rightNode.value;
+            return node;
+        }
+
+        private int query(int qLeft, int qRight) {
+            if(leftRangeBoundary > qRight || qLeft > rightRangeBoundary) {
+                return 0;
+            }
+
+            if(qLeft <= leftRangeBoundary && rightRangeBoundary <= qRight) {
+                return value;
+            }
+
+            int result = 0;
+
+            if(leftNode != null) {
+                result += leftNode.query(qLeft, qRight);
+            }
+            if (rightNode != null) {
+                result += rightNode.query(qLeft, qRight);
+            }
+
+            return result;
+        }
+
+        private void set(int targetIndex, int targetValue) {
+
+            if(leftRangeBoundary == rightRangeBoundary) {
+                value = targetValue;
+                return;
+            }
+
+            int mid = leftRangeBoundary + (rightRangeBoundary - leftRangeBoundary) / 2;
+            if(targetIndex <= mid) {
+                leftNode.set(targetIndex, targetValue);
+            } else {
+                rightNode.set(targetIndex, targetValue);
+            }
+
+            value = leftNode.value + rightNode.value;
+        }
+    }
+
+    private final Node root;
+
+    public SegmentTree(int[] data) {
+        root = Node.buildNode(0, data.length - 1, data);
     }
 
     public int query(int qLeft, int qRight) {
-        return query(0, 0, size - 1, qLeft, qRight);
-    }
-
-    private int query(int node, int left, int right, int qLeft, int qRight) {
-        if(qLeft > right || qRight < left) {
-            return 0;
-        }
-
-        if(qLeft <= left && right <= qRight) {
-            return nodes[node];
-        }
-
-        int mid = left + (right - left) / 2;
-
-        return query(node * 2 + 1, left, mid, qLeft, qRight) +
-                query(node * 2 + 2, mid + 1, right, qLeft, qRight);
+        return root.query(qLeft, qRight);
     }
 
     public void set(int targetIndex, int targetValue) {
-        set(0, 0, size - 1, targetIndex, targetValue);
-    }
-
-    private void set(int node, int left, int right, int targetIndex, int targetValue) {
-        if(left == right) {
-            nodes[node] = targetValue;
-            return;
-        }
-
-        int mid = left + (right - left) / 2;
-
-        if(targetIndex <= mid) {
-            set(node * 2 + 1, left, mid, targetIndex, targetValue);
-        } else {
-            set(node * 2 + 2, mid + 1, right, targetIndex, targetValue);
-        }
-
-        nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
-    }
-
-    public void add(int targetIndex, int targetValue) {
-        add(0, 0, size - 1, targetIndex, targetValue);
-    }
-
-    private void add(int node, int left, int right, int targetIndex, int targetValue) {
-        if(left == right) {
-            nodes[node] += targetValue;
-            return;
-        }
-
-        int mid = left + (right - left) / 2;
-
-        if(targetIndex <= mid) {
-            add(node * 2 + 1, left, mid, targetIndex, targetValue);
-        } else {
-            add(node * 2 + 2, mid + 1, right, targetIndex, targetValue);
-        }
-
-        nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
-    }
-
-    public void addOnRange(int targetLeft, int targetRight, int targetValue) {
-        addOnRange(0, 0, size - 1, targetLeft, targetRight, targetValue);
-    }
-
-    private void addOnRange(int node, int left, int right, int targetLeft, int targetRight, int targetValue) {
-        if(targetLeft > right || targetRight < left) {
-            return;
-        }
-
-        if(left == right) {
-            nodes[node] += targetValue;
-            return;
-        }
-
-        int mid = left + (right - left) / 2;
-        addOnRange(node * 2 + 1, left, mid, targetLeft, targetRight, targetValue);
-        addOnRange(node * 2 + 2, mid + 1, right, targetLeft, targetRight, targetValue);
-
-        nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
+        root.set(targetIndex, targetValue);
     }
 }

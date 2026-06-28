@@ -1,12 +1,12 @@
 package org.mikita.datastructure.tree;
 
-public class LazySegmentTree {
+public class LazyArraySegmentTree {
 
     private final int size;
     private final int[] nodes;
     private final int[] lazy;
 
-    public LazySegmentTree(int[] data) {
+    public LazyArraySegmentTree(int[] data) {
         size = data.length;
         this.nodes = new int[size * 4];
         this.lazy = new int[size * 4];

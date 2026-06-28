@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class LazySegmentTreeTest {
+class LazyArraySegmentTreeTest {
 
     public static Stream<Arguments> queryTestCases() {
         return Stream.of(
@@ -32,10 +32,10 @@ class LazySegmentTreeTest {
     @MethodSource("queryTestCases")
     void shouldQuery(int[] data, int qLeft, int qRight, int expectedResult) {
         // given
-        LazySegmentTree lazySegmentTree = new LazySegmentTree(data);
+        LazyArraySegmentTree lazyArraySegmentTree = new LazyArraySegmentTree(data);
 
         // when
-        int actual = lazySegmentTree.query(qLeft, qRight);
+        int actual = lazyArraySegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
@@ -46,11 +46,11 @@ class LazySegmentTreeTest {
     void shouldAddOnRange_thenQuery(int[] data, int targetLeft, int targetRight, int targetValue,
                                     int qLeft, int qRight, int expectedResult) {
         // given
-        LazySegmentTree lazySegmentTree = new LazySegmentTree(data);
+        LazyArraySegmentTree lazyArraySegmentTree = new LazyArraySegmentTree(data);
 
         // when
-        lazySegmentTree.addOnRange(targetLeft, targetRight, targetValue);
-        int actual = lazySegmentTree.query(qLeft, qRight);
+        lazyArraySegmentTree.addOnRange(targetLeft, targetRight, targetValue);
+        int actual = lazyArraySegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
