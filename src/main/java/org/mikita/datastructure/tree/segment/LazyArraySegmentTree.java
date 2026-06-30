@@ -1,4 +1,4 @@
-package org.mikita.datastructure.tree;
+package org.mikita.datastructure.tree.segment;
 
 public class LazyArraySegmentTree {
 

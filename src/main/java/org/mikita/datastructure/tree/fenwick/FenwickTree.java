@@ -1,4 +1,4 @@
-package org.mikita.datastructure.tree;
+package org.mikita.datastructure.tree.fenwick;
 
 import java.util.Arrays;
 
