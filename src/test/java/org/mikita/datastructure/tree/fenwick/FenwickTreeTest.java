@@ -15,7 +15,10 @@ class FenwickTreeTest {
                 Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 5, 21),
                 Arguments.of(new int[] {1, 2, 3, 4, 1, 6, 7, 8, 9}, 5, 17),
                 Arguments.of(new int[] {1, 2, 3, 4, 10, 6, 7, 8, 9}, 5, 26),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 8, 45)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 8, 45),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 2, 6),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 1, 3),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 1)
         );
     }
 

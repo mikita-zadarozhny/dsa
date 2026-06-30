@@ -13,7 +13,6 @@ public class FenwickTree {
     public FenwickTree(int[] data) {
         size = data.length;
         nodes = new int[size + 1];
-        Arrays.fill(nodes, Integer.MIN_VALUE);
 
         for(int i = 0; i < size; i++) {
             update(i, data[i]);
