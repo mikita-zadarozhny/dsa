@@ -1,4 +1,4 @@
-package org.mikita.datastructure;
+package org.mikita.datastructure.set;
 
 public class UnionFind {
 

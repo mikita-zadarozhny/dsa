@@ -28,13 +28,13 @@ Linked Node-based implementation for a segment tree data structure.
 - [FenwickTree](src/main/java/org/mikita/datastructure/tree/fenwick/FenwickTree.java) -
 Array-based fenwick tree implementation for updatable prefix sum data structure.
 
-### Heaps
-- In progress.
-
 ### Sets
-- In progress.
+- [UnionFind (a.k.a. DisjointSet)](src/main/java/org/mikita/datastructure/set/UnionFind.java) - 
+Data structure designed to union sets and check whether two elements are parts of the same set in logarithmic time.
+Path compression is included into this implementation. Ranking is not included into this implementation. 
 
 ## Algorithms
 
 ### Graph
-- In progress.
+- [Dijkstra](src/main/java/org/mikita/algorithm/graph/Dijkstra.java) -
+Graph-based algorithm used for searching the shortest path in a weighted graph. 

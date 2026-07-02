@@ -1,4 +1,4 @@
-package org.mikita.datastructure;
+package org.mikita.datastructure.set;
 
 import org.junit.jupiter.api.Test;
 
