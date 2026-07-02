@@ -1,6 +1,6 @@
 package org.mikita.datastructure.tree.segment;
 
-public class SegmentTree {
+public class LinkedNodeSegmentTree {
 
     private static class Node {
         private int value;
@@ -76,7 +76,7 @@ public class SegmentTree {
 
     private final Node root;
 
-    public SegmentTree(int[] data) {
+    public LinkedNodeSegmentTree(int[] data) {
         root = Node.buildNode(0, data.length - 1, data);
     }
 

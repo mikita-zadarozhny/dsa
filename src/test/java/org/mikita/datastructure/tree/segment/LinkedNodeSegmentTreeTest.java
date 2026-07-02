@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SegmentTreeTest {
+class LinkedNodeSegmentTreeTest {
 
     public static Stream<Arguments> queryTestCases() {
         return Stream.of(
@@ -29,10 +29,10 @@ class SegmentTreeTest {
     @MethodSource("queryTestCases")
     void shouldQuery(int[] data, int qLeft, int qRight, int expectedResult) {
         // given
-        SegmentTree segmentTree = new SegmentTree(data);
+        LinkedNodeSegmentTree linkedNodeSegmentTree = new LinkedNodeSegmentTree(data);
 
         // when
-        int actual = segmentTree.query(qLeft, qRight);
+        int actual = linkedNodeSegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
@@ -43,11 +43,11 @@ class SegmentTreeTest {
     void shouldSet_thenQuery(int[] data, int targetIndex, int targetValue,
                              int qLeft, int qRight, int expectedResult) {
         // given
-        SegmentTree segmentTree = new SegmentTree(data);
+        LinkedNodeSegmentTree linkedNodeSegmentTree = new LinkedNodeSegmentTree(data);
 
         // when
-        segmentTree.set(targetIndex, targetValue);
-        int actual = segmentTree.query(qLeft, qRight);
+        linkedNodeSegmentTree.set(targetIndex, targetValue);
+        int actual = linkedNodeSegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
