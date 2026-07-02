@@ -7,5 +7,5 @@ public interface SegmentTree {
 
     void add(int targetIndex, int delta);
 
-    void addOnRange(int targetLeft, int targetRight, int targetValue);
+    void addOnRange(int targetLeft, int targetRight, int delta);
 }
