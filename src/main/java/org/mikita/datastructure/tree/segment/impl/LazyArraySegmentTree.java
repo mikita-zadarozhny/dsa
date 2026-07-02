@@ -62,11 +62,11 @@ public class LazyArraySegmentTree implements SegmentTree {
     }
 
     @Override
-    public void addOnRange(int targetLeft, int targetRight, int targetValue) {
-        addOnRange(0, 0, size - 1, targetLeft, targetRight, targetValue);
+    public void addOnRange(int targetLeft, int targetRight, int delta) {
+        addOnRange(0, 0, size - 1, targetLeft, targetRight, delta);
     }
 
-    private void addOnRange(int node, int left, int right, int targetLeft, int targetRight, int targetValue) {
+    private void addOnRange(int node, int left, int right, int targetLeft, int targetRight, int delta) {
         if(targetLeft > right || targetRight < left) {
             return;
         }
@@ -83,18 +83,18 @@ public class LazyArraySegmentTree implements SegmentTree {
         }
 
         if(targetLeft <= left && right <= targetRight) {
-            nodes[node] += (right - left + 1) * targetValue;
+            nodes[node] += (right - left + 1) * delta;
 
             if(left != right) {
-                lazy[node * 2 + 1] += targetValue;
-                lazy[node * 2 + 2] += targetValue;
+                lazy[node * 2 + 1] += delta;
+                lazy[node * 2 + 2] += delta;
             }
             return;
         }
 
         int mid = left + (right - left) / 2;
-        addOnRange(node * 2 + 1, left, mid, targetLeft, targetRight, targetValue);
-        addOnRange(node * 2 + 2, mid + 1, right, targetLeft, targetRight, targetValue);
+        addOnRange(node * 2 + 1, left, mid, targetLeft, targetRight, delta);
+        addOnRange(node * 2 + 2, mid + 1, right, targetLeft, targetRight, delta);
 
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }

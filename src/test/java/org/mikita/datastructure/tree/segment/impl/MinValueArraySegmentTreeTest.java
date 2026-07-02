@@ -6,37 +6,38 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ArraySegmentTreeTest {
+class MinValueArraySegmentTreeTest {
 
     public static Stream<Arguments> queryTestCases() {
         return Stream.of(
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 2, 5, 18),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 8, 45),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 100, 1000, 0)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 2, 5, 3),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 8, 1),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 100, 1000, 2147483647)
         );
     }
 
     public static Stream<Arguments> queryAndSetTestCases() {
         return Stream.of(
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 10, 2, 5, 23),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 1, 2, 5, 14)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 10, 2, 5, 3),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 1, 2, 5, 1)
         );
     }
 
     public static Stream<Arguments> queryAndAddTestCases() {
         return Stream.of(
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 10, 2, 5, 28),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 1, 2, 5, 19)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 10, 2, 5, 3),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 1, 2, 5, 3),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 2, 10, 2, 5, 4)
         );
     }
 
     public static Stream<Arguments> queryAndOnRangeAddTestCases() {
         return Stream.of(
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 3, 5, 10, 2, 5, 48),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 8, 1, 2, 5, 22),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 4, 1, 2, 5, 19)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 3, 5, 10, 2, 5, 3),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 8, 1, 2, 5, 4),
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 4, 1, 2, 5, 3)
         );
     }
 
@@ -44,10 +45,10 @@ class ArraySegmentTreeTest {
     @MethodSource("queryTestCases")
     void shouldQuery(int[] data, int qLeft, int qRight, int expectedResult) {
         // given
-        ArraySegmentTree arraySegmentTree = new ArraySegmentTree(data);
+        MinValueArraySegmentTree minValueArraySegmentTree = new MinValueArraySegmentTree(data);
 
         // when
-        int actual = arraySegmentTree.query(qLeft, qRight);
+        int actual = minValueArraySegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
@@ -58,11 +59,11 @@ class ArraySegmentTreeTest {
     void shouldSet_thenQuery(int[] data, int targetIndex, int targetValue,
                              int qLeft, int qRight, int expectedResult) {
         // given
-        ArraySegmentTree arraySegmentTree = new ArraySegmentTree(data);
+        MinValueArraySegmentTree minValueArraySegmentTree = new MinValueArraySegmentTree(data);
 
         // when
-        arraySegmentTree.set(targetIndex, targetValue);
-        int actual = arraySegmentTree.query(qLeft, qRight);
+        minValueArraySegmentTree.set(targetIndex, targetValue);
+        int actual = minValueArraySegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
@@ -73,11 +74,11 @@ class ArraySegmentTreeTest {
     void shouldAdd_thenQuery(int[] data, int targetIndex, int targetValue,
                              int qLeft, int qRight, int expectedResult) {
         // given
-        ArraySegmentTree arraySegmentTree = new ArraySegmentTree(data);
+        MinValueArraySegmentTree minValueArraySegmentTree = new MinValueArraySegmentTree(data);
 
         // when
-        arraySegmentTree.add(targetIndex, targetValue);
-        int actual = arraySegmentTree.query(qLeft, qRight);
+        minValueArraySegmentTree.add(targetIndex, targetValue);
+        int actual = minValueArraySegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
@@ -88,11 +89,11 @@ class ArraySegmentTreeTest {
     void shouldAddOnRange_thenQuery(int[] data, int targetLeft, int targetRight, int targetValue,
                                     int qLeft, int qRight, int expectedResult) {
         // given
-        ArraySegmentTree arraySegmentTree = new ArraySegmentTree(data);
+        MinValueArraySegmentTree minValueArraySegmentTree = new MinValueArraySegmentTree(data);
 
         // when
-        arraySegmentTree.addOnRange(targetLeft, targetRight, targetValue);
-        int actual = arraySegmentTree.query(qLeft, qRight);
+        minValueArraySegmentTree.addOnRange(targetLeft, targetRight, targetValue);
+        int actual = minValueArraySegmentTree.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
