@@ -1,5 +1,6 @@
 package org.mikita.datastructure.sparsetable.impl;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,5 +34,28 @@ class MaxValueSparseTableTest {
 
         // then
         assertEquals(expectedResult, actual);
+    }
+
+    @Test
+    void shouldReturnCorrectStringRepresentation() {
+        // given
+        int[] data = {7, 2, 3, 0, 5, 10, 3, 12, 18};
+        MaxValueSparseTable maxValueSparseTable = new MaxValueSparseTable(data);
+
+        // when
+        String actual = maxValueSparseTable.toString();
+
+        // then
+        assertEquals("""
+                [7, 7, 7, 12]
+                [2, 3, 5, 18]
+                [3, 3, 10, 12]
+                [0, 5, 10, 10]
+                [5, 10, 12, 12]
+                [10, 10, 18, -2147483648]
+                [3, 12, 12, -2147483648]
+                [12, 18, -2147483648, -2147483648]
+                [18, -2147483648, -2147483648, -2147483648]
+                """, actual);
     }
 }

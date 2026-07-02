@@ -52,10 +52,13 @@ public abstract class AbstractSparseTable implements SparseTable {
         return merge(lookupTable[left][j], query(left + (int)Math.pow(2, j), right));
     }
 
-    public void print(PrintStream printStream) {
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
         for(int[] row : lookupTable) {
-            printStream.println(Arrays.toString(row));
+            result.append(Arrays.toString(row)).append(System.lineSeparator());
         }
+        return result.toString();
     }
 
     protected abstract int merge(int value1, int value2);

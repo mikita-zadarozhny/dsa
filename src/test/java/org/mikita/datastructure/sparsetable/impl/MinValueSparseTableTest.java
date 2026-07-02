@@ -1,5 +1,6 @@
 package org.mikita.datastructure.sparsetable.impl;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,5 +34,28 @@ class MinValueSparseTableTest {
 
         // then
         assertEquals(expectedResult, actual);
+    }
+
+    @Test
+    void shouldReturnCorrectStringRepresentation() {
+        // given
+        int[] data = {7, 2, 3, 0, 5, 10, 3, 12, 18};
+        MinValueSparseTable minValueSparseTable = new MinValueSparseTable(data);
+
+        // when
+        String actual = minValueSparseTable.toString();
+
+        // then
+        assertEquals("""
+                [7, 2, 0, 0]
+                [2, 2, 0, 0]
+                [3, 0, 0, 0]
+                [0, 0, 0, 0]
+                [5, 5, 3, 3]
+                [10, 3, 3, 2147483647]
+                [3, 3, 3, 2147483647]
+                [12, 12, 2147483647, 2147483647]
+                [18, 2147483647, 2147483647, 2147483647]
+                """, actual);
     }
 }
