@@ -4,17 +4,21 @@
 
 ### Sparse Tables
 - [RangeSumSparseTable](src/main/java/org/mikita/datastructure/sparsetable/impl/RangeSumSparseTable.java) -
-  Sparse table implementation for looking for a sum of elements of a sub-array.
+Sparse table implementation for looking for a sum of elements of a sub-array.
 - [MaxValueSparseTable](src/main/java/org/mikita/datastructure/sparsetable/impl/MaxValueSparseTable.java) -
-  Sparse table implementation for looking for the maximal element within a sub-array.
+Sparse table implementation for looking for the maximal element within a sub-array.
 - [MinValueSparseTable](src/main/java/org/mikita/datastructure/sparsetable/impl/MinValueSparseTable.java) -
-  Sparse table implementation for looking for the minimal elements within a sub-array.
+Sparse table implementation for looking for the minimal elements within a sub-array.
 
 ### Trees
 
 #### Segment Trees
-- [ArraySegmentTree](src/main/java/org/mikita/datastructure/tree/segment/impl/ArraySegmentTree.java) - 
-Array-based implementation for a segment tree data structure.
+- [RangeSumArraySegmentTree](src/main/java/org/mikita/datastructure/tree/segment/impl/RangeSumArraySegmentTree.java) - 
+Array-based implementation for a segment tree data structure for looking for a sum of elements of a sub-array.
+- [MaxValueArraySegmentTree](src/main/java/org/mikita/datastructure/tree/segment/impl/MaxValueArraySegmentTree.java) -
+Array-based implementation for a segment tree data structure for looking for the maximal element within a sub-array.
+- [MinValueArraySegmentTree.java](src/main/java/org/mikita/datastructure/tree/segment/impl/MinValueArraySegmentTree.java) -
+Array-based implementation for a segment tree data structure for looking for the minimal element within a sub-array.
 - [LazyArraySegmentTree](src/main/java/org/mikita/datastructure/tree/segment/impl/LazyArraySegmentTree.java) - 
 Array-based implementation for a segment tree data structure with lazy propagation for range update operation.
 - [LinkedNodeSegmentTree](src/main/java/org/mikita/datastructure/tree/segment/impl/LinkedNodeSegmentTree.java) -
