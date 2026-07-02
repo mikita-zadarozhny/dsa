@@ -1,4 +1,4 @@
-package org.mikita.datastructure.tree.segment;
+package org.mikita.datastructure.tree.segment.impl;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

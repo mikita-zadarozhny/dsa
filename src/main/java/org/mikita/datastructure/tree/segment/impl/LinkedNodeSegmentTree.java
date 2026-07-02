@@ -1,6 +1,8 @@
-package org.mikita.datastructure.tree.segment;
+package org.mikita.datastructure.tree.segment.impl;
 
-public class LinkedNodeSegmentTree {
+import org.mikita.datastructure.tree.segment.SegmentTree;
+
+public class LinkedNodeSegmentTree implements SegmentTree {
 
     private static class Node {
         private int value;
@@ -72,6 +74,42 @@ public class LinkedNodeSegmentTree {
 
             value = leftNode.value + rightNode.value;
         }
+
+        public void add(int targetIndex, int delta) {
+
+            if(leftRangeBoundary == rightRangeBoundary) {
+                value += delta;
+                return;
+            }
+
+            int mid = leftRangeBoundary + (rightRangeBoundary - leftRangeBoundary) / 2;
+
+            if(targetIndex <= mid) {
+                leftNode.add(targetIndex, delta);
+            } else {
+                rightNode.add(targetIndex, delta);
+            }
+
+            value = leftNode.value + rightNode.value;
+        }
+
+        public void addOnRange(int targetLeft, int targetRight, int delta) {
+            if(leftRangeBoundary > targetRight || targetLeft > rightRangeBoundary) {
+                return;
+            }
+
+            if(leftRangeBoundary == rightRangeBoundary) {
+                value += delta;
+                return;
+            }
+
+            int mid = leftRangeBoundary + (rightRangeBoundary - leftRangeBoundary) / 2;
+
+            leftNode.addOnRange(targetLeft, targetRight, delta);
+            rightNode.addOnRange(targetLeft, targetRight, delta);
+
+            value = leftNode.value + rightNode.value;
+        }
     }
 
     private final Node root;
@@ -80,11 +118,23 @@ public class LinkedNodeSegmentTree {
         root = Node.buildNode(0, data.length - 1, data);
     }
 
+    @Override
     public int query(int qLeft, int qRight) {
         return root.query(qLeft, qRight);
     }
 
+    @Override
     public void set(int targetIndex, int targetValue) {
         root.set(targetIndex, targetValue);
+    }
+
+    @Override
+    public void add(int targetIndex, int delta) {
+        root.add(targetIndex, delta);
+    }
+
+    @Override
+    public void addOnRange(int targetLeft, int targetRight, int delta) {
+        root.addOnRange(targetLeft, targetRight, delta);
     }
 }

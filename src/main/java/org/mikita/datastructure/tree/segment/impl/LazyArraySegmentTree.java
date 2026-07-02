@@ -1,6 +1,8 @@
-package org.mikita.datastructure.tree.segment;
+package org.mikita.datastructure.tree.segment.impl;
 
-public class LazyArraySegmentTree {
+import org.mikita.datastructure.tree.segment.SegmentTree;
+
+public class LazyArraySegmentTree implements SegmentTree {
 
     private final int size;
     private final int[] nodes;
@@ -28,6 +30,7 @@ public class LazyArraySegmentTree {
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }
 
+    @Override
     public int query(int qLeft, int qRight) {
         return query(0, 0, size - 1, qLeft, qRight);
     }
@@ -58,6 +61,7 @@ public class LazyArraySegmentTree {
                 query(node * 2 + 2, mid + 1, right, qLeft, qRight);
     }
 
+    @Override
     public void addOnRange(int targetLeft, int targetRight, int targetValue) {
         addOnRange(0, 0, size - 1, targetLeft, targetRight, targetValue);
     }
@@ -93,5 +97,15 @@ public class LazyArraySegmentTree {
         addOnRange(node * 2 + 2, mid + 1, right, targetLeft, targetRight, targetValue);
 
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
+    }
+
+    @Override
+    public void set(int targetIndex, int targetValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void add(int targetIndex, int delta) {
+        throw new UnsupportedOperationException();
     }
 }

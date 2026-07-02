@@ -1,6 +1,8 @@
-package org.mikita.datastructure.tree.segment;
+package org.mikita.datastructure.tree.segment.impl;
 
-public class ArraySegmentTree {
+import org.mikita.datastructure.tree.segment.SegmentTree;
+
+public class ArraySegmentTree implements SegmentTree {
 
     private final int size;
     private final int[] nodes;
@@ -26,6 +28,7 @@ public class ArraySegmentTree {
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }
 
+    @Override
     public int query(int qLeft, int qRight) {
         return query(0, 0, size - 1, qLeft, qRight);
     }
@@ -45,6 +48,7 @@ public class ArraySegmentTree {
                 query(node * 2 + 2, mid + 1, right, qLeft, qRight);
     }
 
+    @Override
     public void set(int targetIndex, int targetValue) {
         set(0, 0, size - 1, targetIndex, targetValue);
     }
@@ -66,6 +70,7 @@ public class ArraySegmentTree {
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }
 
+    @Override
     public void add(int targetIndex, int targetValue) {
         add(0, 0, size - 1, targetIndex, targetValue);
     }
@@ -87,6 +92,7 @@ public class ArraySegmentTree {
         nodes[node] = nodes[node * 2 + 1] + nodes[node * 2 + 2];
     }
 
+    @Override
     public void addOnRange(int targetLeft, int targetRight, int targetValue) {
         addOnRange(0, 0, size - 1, targetLeft, targetRight, targetValue);
     }

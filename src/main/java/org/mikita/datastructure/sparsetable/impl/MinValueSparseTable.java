@@ -1,14 +1,16 @@
-package org.mikita.datastructure.sparsetable;
+package org.mikita.datastructure.sparsetable.impl;
 
-public class MaxValueSparseTable extends AbstractSparseTable {
+import org.mikita.datastructure.sparsetable.AbstractSparseTable;
 
-    public MaxValueSparseTable(int[] data) {
-        super(data, Integer.MIN_VALUE);
+public class MinValueSparseTable extends AbstractSparseTable {
+
+    public MinValueSparseTable(int[] data) {
+        super(data, Integer.MAX_VALUE);
     }
 
     @Override
     protected int merge(int value1, int value2) {
-        return Math.max(value1, value2);
+        return Math.min(value1, value2);
     }
 
     //O(1) lookup

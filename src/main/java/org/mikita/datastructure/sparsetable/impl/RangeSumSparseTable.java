@@ -1,4 +1,6 @@
-package org.mikita.datastructure.sparsetable;
+package org.mikita.datastructure.sparsetable.impl;
+
+import org.mikita.datastructure.sparsetable.AbstractSparseTable;
 
 public class RangeSumSparseTable extends AbstractSparseTable {
 
