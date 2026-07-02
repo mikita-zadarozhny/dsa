@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SparseTableTest {
+class RangeSumSparseTableTest {
 
     public static Stream<Arguments> queryTestCases() {
         return Stream.of(
@@ -22,13 +22,12 @@ class SparseTableTest {
     @MethodSource("queryTestCases")
     void shouldQuery(int[] data, int qLeft, int qRight, int expectedResult) {
         // given
-        SparseTable sparseTable = new SparseTable(data);
+        RangeSumSparseTable rangeSumSparseTable = new RangeSumSparseTable(data);
 
         // when
-        int actual = sparseTable.query(qLeft, qRight);
+        int actual = rangeSumSparseTable.query(qLeft, qRight);
 
         // then
         assertEquals(expectedResult, actual);
     }
-
 }
