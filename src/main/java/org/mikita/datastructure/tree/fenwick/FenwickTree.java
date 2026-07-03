@@ -1,7 +1,5 @@
 package org.mikita.datastructure.tree.fenwick;
 
-import java.util.Arrays;
-
 /**
  * Also known as Binary Indexed Tree (BIT)
  */

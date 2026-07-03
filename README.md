@@ -26,7 +26,8 @@ Linked Node-based implementation for a segment tree data structure.
 
 #### Fenwick Trees
 - [FenwickTree](src/main/java/org/mikita/datastructure/tree/fenwick/FenwickTree.java) -
-Array-based fenwick tree implementation for updatable prefix sum data structure.
+Array-based fenwick tree implementation for updatable prefix sum data structure. 
+Explanation is [here](docs/fenwick-tree/fenwick-tree.md).
 
 ### Sets
 - [UnionFind (a.k.a. DisjointSet)](src/main/java/org/mikita/datastructure/set/UnionFind.java) - 
