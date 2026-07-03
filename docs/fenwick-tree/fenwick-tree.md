@@ -10,7 +10,7 @@ Given a function `reindex(int index)`, which converts zero-indexed indexes to on
 Namely, it simply adds `1` to `index`.
 
 Updating a value for some particular index requires propagation of the change to its parent nodes. 
-To find all the ancestors use the following math:
+To find all the ancestors, use the following math:
 ``` Java
 public void update(int index, int delta) {
     index = index + 1; // 0-indexed -> 1-indexed
