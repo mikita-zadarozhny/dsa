@@ -36,6 +36,10 @@ Path compression is included into this implementation. Ranking is not included i
 
 ## Algorithms
 
+### Array
+- [Kadane](src/main/java/org/mikita/algorithm/array/Kadane.java) -
+Array-based algorithm used for finding max sub-array sum.
+
 ### Graph
 - [Dijkstra](src/main/java/org/mikita/algorithm/graph/Dijkstra.java) -
-Graph-based algorithm used for searching the shortest path in a weighted graph. 
+Graph-based algorithm used for searching the shortest path in a weighted graph.
