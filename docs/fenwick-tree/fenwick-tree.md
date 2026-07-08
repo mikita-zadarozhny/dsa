@@ -1,8 +1,7 @@
 # Fenwick Tree
 
 Fenwick Tree - compressed prefix sums.
-`nodes[i] stores sum of (i - LSB(i) + 1 ... i)`
-Each node - last segment of size LSB. 
+- `nodes[i] stores sum of (i - LSB(i) + 1 ... i)`
 
 ## Mathematical Foundation
 
