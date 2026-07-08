@@ -1,7 +1,6 @@
 package org.mikita.algorithm.graph;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStarSearch {
 
@@ -18,6 +17,75 @@ public class AStarSearch {
         private double h;
         // integral parameter of two fields above
         private double f;
+    }
+
+    public static class Path {
+        private final boolean isFound;
+        private final double distance;
+        private final List<int[]> pathSegments;
+
+        private Path(boolean isFound, double distance) {
+            this.isFound = isFound;
+            this.distance = distance;
+            this.pathSegments = new LinkedList<>();
+        }
+
+        private void addPathSegment(int[] segment) {
+            pathSegments.addFirst(segment.clone());
+        }
+
+        private static Path notFound() {
+            return new Path(false, -1);
+        }
+
+        private static Path found(double distance) {
+            return new Path(true, distance);
+        }
+
+        private static Path found(double distance, List<int[]> pathSegments) {
+            Path path = new Path(true, distance);
+            pathSegments.forEach(path::addPathSegment);
+            return path;
+        }
+
+        public boolean isFound() {
+            return isFound;
+        }
+
+        public double getDistance() {
+            return distance;
+        }
+
+        public List<int[]> getPathSegments() {
+            List<int[]> result = new ArrayList<>();
+            for (int[] pathSegment : pathSegments) {
+                result.add(pathSegment.clone());
+            }
+            return Collections.unmodifiableList(result);
+        }
+
+        public String toString() {
+            if(pathSegments.isEmpty()) {
+                return "[]";
+            }
+            if(pathSegments.size() == 1) {
+                return "[%s, %s]".formatted(pathSegments.getFirst()[0], pathSegments.getFirst()[1]);
+            }
+            StringBuilder stringRepresentation = new StringBuilder();
+            for (int i = 0; i < pathSegments.size(); i++) {
+                int[] pathSegment = pathSegments.get(i);
+                stringRepresentation.append("[")
+                        .append(pathSegment[0]).append(", ")
+                        .append(pathSegment[1])
+                        .append("]");
+
+                if(i < pathSegments.size() - 1) {
+                    stringRepresentation.append(" -> ");
+                }
+            }
+
+            return stringRepresentation.toString();
+        }
     }
 
     private final static int[][] directions = new int[][] {
@@ -41,9 +109,9 @@ public class AStarSearch {
         this.columns = grid[0].length;
     }
 
-    public double search(int[] source, int[] destination) {
+    public Path search(int[] source, int[] destination) {
         if(source[0] == destination[0] && source[1] == destination[1]) {
-            return 0;
+            return Path.found(0, List.of(source));
         }
 
         Cell[][] cellDetails = new Cell[rows][columns];
@@ -72,7 +140,16 @@ public class AStarSearch {
             visitedCells[row][column] = true;
 
             if(row == destination[0] && column == destination[1]) {
-                return currentCell.g;
+                List<int[]> pathSegments = new ArrayList<>();
+                Cell pointer = currentCell;
+
+                while (pointer != cellDetails[pointer.parent[0]][pointer.parent[1]]) {
+                    pathSegments.add(new int[] {pointer.row, pointer.column});
+                    pointer = cellDetails[pointer.parent[0]][pointer.parent[1]];
+                }
+                pathSegments.add(new int[] {pointer.row, pointer.column});
+
+                return Path.found(currentCell.g, pathSegments);
             }
 
             for (int[] direction : directions) {
@@ -92,18 +169,19 @@ public class AStarSearch {
                 double nextH = calculateEuclideanDistance(nextRow, nextColumn, destination);
                 double nextF = nextG + nextH;
 
-                if(cellDetails[nextRow][nextColumn].f == Double.POSITIVE_INFINITY
-                        || cellDetails[nextRow][nextColumn].f > nextF) {
-                    cellDetails[nextRow][nextColumn].g = nextG;
-                    cellDetails[nextRow][nextColumn].h = nextH;
-                    cellDetails[nextRow][nextColumn].f = nextG + nextF;
-                    cellDetails[nextRow][nextColumn].parent = new int[] {row, column};
-                    priorityQueue.add(cellDetails[nextRow][nextColumn]);
+                Cell nextCell = cellDetails[nextRow][nextColumn];
+                if(nextCell.f == Double.POSITIVE_INFINITY
+                        || nextCell.f > nextF) {
+                    nextCell.g = nextG;
+                    nextCell.h = nextH;
+                    nextCell.f = nextF;
+                    nextCell.parent = new int[] {row, column};
+                    priorityQueue.add(nextCell);
                 }
             }
         }
 
-        return -1;
+        return Path.notFound();
     }
 
     private static Cell createCell(int row, int column) {

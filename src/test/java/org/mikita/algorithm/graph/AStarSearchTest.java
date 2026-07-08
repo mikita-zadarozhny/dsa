@@ -35,26 +35,38 @@ class AStarSearchTest {
 
     public static Stream<Arguments> aStarSearchTestCases() {
         return Stream.of(
-                Arguments.of(new int[] {0, 19}, new int[] {19, 0}, 27.0),
-                Arguments.of(new int[] {16, 1}, new int[] {16, 7}, 7.0),
-                Arguments.of(new int[] {16, 1}, new int[] {14, 6}, 6.0),
-                Arguments.of(new int[] {16, 6}, new int[] {14, 6}, 2.0),
-                Arguments.of(new int[] {16, 1}, new int[] {15, 6}, 6.0),
-                Arguments.of(new int[] {16, 1}, new int[] {14, 1}, 2.0)
+                Arguments.of(new int[] {0, 19}, new int[] {19, 0}, 23.0,
+                        "[0, 19] -> [1, 18] -> [1, 17] -> [1, 16] -> [2, 15] -> [3, 14] -> [4, 13] -> " +
+                                "[5, 12] -> [6, 12] -> [7, 11] -> [8, 10] -> [9, 9] -> [10, 8] -> [11, 8] -> " +
+                                "[12, 7] -> [13, 7] -> [14, 6] -> [15, 6] -> [16, 5] -> [16, 4] -> [17, 3] -> " +
+                                "[18, 2] -> [19, 1] -> [19, 0]"),
+                Arguments.of(new int[] {16, 1}, new int[] {16, 7}, 6.0,
+                        "[16, 1] -> [16, 2] -> [16, 3] -> [16, 4] -> [16, 5] -> [16, 6] -> [16, 7]"),
+                Arguments.of(new int[] {16, 1}, new int[] {14, 6}, 6.0,
+                        "[16, 1] -> [16, 2] -> [16, 3] -> [16, 4] -> [16, 5] -> [15, 6] -> [14, 6]"),
+                Arguments.of(new int[] {16, 1}, new int[] {14, 7}, 6.0,
+                        "[16, 1] -> [16, 2] -> [16, 3] -> [16, 4] -> [16, 5] -> [15, 6] -> [14, 7]"),
+                Arguments.of(new int[] {16, 6}, new int[] {14, 6}, 2.0,
+                        "[16, 6] -> [15, 6] -> [14, 6]"),
+                Arguments.of(new int[] {16, 1}, new int[] {15, 6}, 5.0,
+                        "[16, 1] -> [16, 2] -> [16, 3] -> [16, 4] -> [16, 5] -> [15, 6]"),
+                Arguments.of(new int[] {16, 1}, new int[] {14, 1}, 2.0,
+                        "[16, 1] -> [15, 0] -> [14, 1]")
         );
     }
 
     @MethodSource("aStarSearchTestCases")
     @ParameterizedTest
-    void shouldSearchPath(int[] source, int[] destination, double expected) {
+    void shouldSearchPath(int[] source, int[] destination, double expectedDistance, String expectedPathSegments) {
 
         // given
         AStarSearch aStarSearch = new AStarSearch(GRID);
 
         // when
-        double actual = aStarSearch.search(source, destination);
+        AStarSearch.Path actual = aStarSearch.search(source, destination);
 
         // then
-        assertEquals(expected, actual);
+        assertEquals(expectedDistance, actual.getDistance());
+        assertEquals(expectedPathSegments, actual.toString());
     }
 }
