@@ -39,6 +39,12 @@ Path compression is included into this implementation. Ranking is not included i
 ### Array
 - [Kadane](src/main/java/org/mikita/algorithm/array/Kadane.java) -
 Array-based algorithm used for finding max sub-array sum.
+  - Time Complexity is O(n).
+  - Space Complexity is O(1).
+- [DutchNationalFlag](src/main/java/org/mikita/algorithm/array/DutchNationalFlag.java) - 
+Array-based algorithm used for efficient sorting for arrays that consists only of 0s, 1s, and 2s.
+  - Time Complexity is O(n).
+  - Space Complexity is O(1).
 
 ### Graph
 - [Dijkstra](src/main/java/org/mikita/algorithm/graph/Dijkstra.java) -
