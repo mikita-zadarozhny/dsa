@@ -18,14 +18,21 @@ class FenwickTreeTest {
                 Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 8, 45),
                 Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 2, 6),
                 Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 1, 3),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 1)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 0, 1),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 0, 5),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 1, 15),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 3, 50),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 13, 525),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 14, 600),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 15, 680)
         );
     }
 
     public static Stream<Arguments> queryAndUpdateTestCases() {
         return Stream.of(
                 Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 1, 5, 22),
-                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 10, 5, 31)
+                Arguments.of(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 4, 10, 5, 31),
+                Arguments.of(new int[] {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80}, 0, 1, 15, 681)
         );
     }
 

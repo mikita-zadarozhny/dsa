@@ -41,6 +41,7 @@ public abstract class AbstractSparseTable implements SparseTable {
     }
 
     //O(log(N)) lookup
+    @Override
     public int query(int left, int right) {
         if(left < 0 || right >= size || left > right) {
             return emptyMark;
