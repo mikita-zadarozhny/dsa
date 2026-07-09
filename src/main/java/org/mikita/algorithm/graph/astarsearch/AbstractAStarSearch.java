@@ -1,13 +1,11 @@
-package org.mikita.algorithm.graph;
+package org.mikita.algorithm.graph.astarsearch;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class AStarSearch {
+public abstract class AbstractAStarSearch implements AStarSearch {
 
     private static class Cell {
         private int[] parent;
@@ -24,96 +22,17 @@ public class AStarSearch {
         private double f;
     }
 
-    public static class Path {
-        private final boolean isFound;
-        private final double distance;
-        private final List<int[]> pathSegments;
-
-        private Path(boolean isFound, double distance) {
-            this.isFound = isFound;
-            this.distance = distance;
-            this.pathSegments = new LinkedList<>();
-        }
-
-        private void addPathSegment(int[] segment) {
-            pathSegments.addFirst(segment.clone());
-        }
-
-        private static Path notFound() {
-            return new Path(false, -1);
-        }
-
-        private static Path found(double distance) {
-            return new Path(true, distance);
-        }
-
-        private static Path found(double distance, List<int[]> pathSegments) {
-            Path path = new Path(true, distance);
-            pathSegments.forEach(path::addPathSegment);
-            return path;
-        }
-
-        public boolean isFound() {
-            return isFound;
-        }
-
-        public double getDistance() {
-            return distance;
-        }
-
-        public List<int[]> getPathSegments() {
-            List<int[]> result = new ArrayList<>();
-            for (int[] pathSegment : pathSegments) {
-                result.add(pathSegment.clone());
-            }
-            return Collections.unmodifiableList(result);
-        }
-
-        public String toString() {
-            if(pathSegments.isEmpty()) {
-                return "[]";
-            }
-            if(pathSegments.size() == 1) {
-                return "[%s, %s]".formatted(pathSegments.getFirst()[0], pathSegments.getFirst()[1]);
-            }
-            StringBuilder stringRepresentation = new StringBuilder();
-            for (int i = 0; i < pathSegments.size(); i++) {
-                int[] pathSegment = pathSegments.get(i);
-                stringRepresentation.append("[")
-                        .append(pathSegment[0]).append(", ")
-                        .append(pathSegment[1])
-                        .append("]");
-
-                if(i < pathSegments.size() - 1) {
-                    stringRepresentation.append(" -> ");
-                }
-            }
-
-            return stringRepresentation.toString();
-        }
-    }
-
-    private final static int[][] directions = new int[][] {
-            {-1, 0}, // North
-            {-1, 1}, // North-East
-            {0, 1}, // East
-            {1, 1}, // South-East
-            {1, 0}, // South
-            {1, -1}, // South-West
-            {0, -1}, // West
-            {-1, -1}, // North-West
-    };
-
     private final int[][] grid;
     private final int rows;
     private final int columns;
 
-    public AStarSearch (int[][] grid) {
+    public AbstractAStarSearch(int[][] grid) {
         this.grid = grid;
         this.rows = grid.length;
         this.columns = grid[0].length;
     }
 
+    @Override
     public Path search(int[] source, int[] destination) {
         if(source[0] == destination[0] && source[1] == destination[1]) {
             return Path.found(0, List.of(source));
@@ -157,7 +76,7 @@ public class AStarSearch {
                 return Path.found(currentCell.g, pathSegments);
             }
 
-            for (int[] direction : directions) {
+            for (int[] direction : getAllowedDirections()) {
                 int nextRow = row + direction[0];
                 int nextColumn = column + direction[1];
                 if(!canMove(nextRow, nextColumn)) {
@@ -169,9 +88,9 @@ public class AStarSearch {
                 }
 
                 // distance from source
-                double nextG = currentCell.g + Math.sqrt(Math.pow(direction[0], 2) + Math.pow(direction[1], 2));
+                double nextG = currentCell.g + calculateStepDistance(direction[0], direction[1]);
                 // distance to destination
-                double nextH = calculateEuclideanDistance(nextRow, nextColumn, destination);
+                double nextH = calculateDistanceToDestination(nextRow, nextColumn, destination);
                 double nextF = nextG + nextH;
 
                 Cell nextCell = cellDetails[nextRow][nextColumn];
@@ -206,10 +125,9 @@ public class AStarSearch {
         return i >= 0 && j >= 0 && i < rows && j < columns && grid[i][j] != 0;
     }
 
-    // Euclidean distance
-    private double calculateEuclideanDistance(int row, int column, int[] destination)
-    {
-        return Math.sqrt((row - destination[0]) * (row - destination[0])
-                + (column - destination[1]) * (column - destination[1]));
-    }
+    protected abstract double calculateStepDistance(int rowDelta, int columnDelta);
+
+    protected abstract double calculateDistanceToDestination(int row, int column, int[] destination);
+
+    protected abstract int[][] getAllowedDirections();
 }
