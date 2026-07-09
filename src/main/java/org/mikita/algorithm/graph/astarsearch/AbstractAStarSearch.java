@@ -39,7 +39,6 @@ public abstract class AbstractAStarSearch implements AStarSearch {
         }
 
         Cell[][] cellDetails = new Cell[rows][columns];
-        boolean[][] visitedCells = new boolean[rows][columns];
 
         for(int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
@@ -61,7 +60,6 @@ public abstract class AbstractAStarSearch implements AStarSearch {
             Cell currentCell = priorityQueue.remove();
             int row = currentCell.row;
             int column = currentCell.column;
-            visitedCells[row][column] = true;
 
             if(row == destination[0] && column == destination[1]) {
                 List<int[]> pathSegments = new ArrayList<>();
@@ -80,10 +78,6 @@ public abstract class AbstractAStarSearch implements AStarSearch {
                 int nextRow = row + direction[0];
                 int nextColumn = column + direction[1];
                 if(!canMove(nextRow, nextColumn)) {
-                    continue;
-                }
-
-                if(visitedCells[nextRow][nextColumn]) {
                     continue;
                 }
 
