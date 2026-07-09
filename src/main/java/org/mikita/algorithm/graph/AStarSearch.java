@@ -1,6 +1,11 @@
 package org.mikita.algorithm.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class AStarSearch {
 
@@ -164,7 +169,7 @@ public class AStarSearch {
                 }
 
                 // distance from source
-                double nextG = currentCell.g + 1;
+                double nextG = currentCell.g + Math.sqrt(Math.pow(direction[0], 2) + Math.pow(direction[1], 2));
                 // distance to destination
                 double nextH = calculateEuclideanDistance(nextRow, nextColumn, destination);
                 double nextF = nextG + nextH;
@@ -198,7 +203,7 @@ public class AStarSearch {
     }
 
     private boolean canMove(int i, int j) {
-        return i >= 0 && j >= 0 && i < rows && j < columns && grid[i][j] == 0;
+        return i >= 0 && j >= 0 && i < rows && j < columns && grid[i][j] != 0;
     }
 
     // Euclidean distance
