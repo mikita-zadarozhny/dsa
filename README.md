@@ -48,4 +48,12 @@ Array-based algorithm used for efficient sorting for arrays that consists only o
 
 ### Graph
 - [Dijkstra](src/main/java/org/mikita/algorithm/graph/Dijkstra.java) -
-Graph-based algorithm used for searching the shortest path in a weighted graph.
+Search algorithm used for finding the shortest path in a weighted graph.
+- [EuclideanAStarSearch](src/main/java/org/mikita/algorithm/graph/astarsearch/impl/EuclideanAStarSearch.java) - 
+Informed search algorithm used for finding the shortest path in a weighted graph.
+This algorithm is an extended version of Dijkstra's Algorithm with a heuristic (based on Euclidean distance) 
+for improved efficiency.
+- [ManhattanAStarSearch](src/main/java/org/mikita/algorithm/graph/astarsearch/impl/ManhattanAStarSearch.java) -
+Informed search algorithm used for finding the shortest path in a weighted graph.
+This algorithm is an extended version of Dijkstra's Algorithm with a heuristic (based on Manhattan distance) 
+for improved efficiency.

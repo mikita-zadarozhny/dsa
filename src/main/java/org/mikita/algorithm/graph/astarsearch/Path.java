@@ -9,25 +9,27 @@ public class Path {
     private final boolean isFound;
     private final double distance;
     private final List<int[]> pathSegments;
+    private final long iterations;
 
-    private Path(boolean isFound, double distance) {
+    private Path(boolean isFound, double distance, long iterations) {
         this.isFound = isFound;
         this.distance = distance;
         this.pathSegments = new LinkedList<>();
+        this.iterations = iterations;
+    }
+
+    protected static Path notFound(long iterations) {
+        return new Path(false, -1, iterations);
+    }
+
+    protected static Path found(double distance, List<int[]> pathSegments, long iterations) {
+        Path path = new Path(true, distance, iterations);
+        pathSegments.forEach(path::addPathSegment);
+        return path;
     }
 
     protected void addPathSegment(int[] segment) {
         pathSegments.addFirst(segment.clone());
-    }
-
-    protected static Path notFound() {
-        return new Path(false, -1);
-    }
-
-    protected static Path found(double distance, List<int[]> pathSegments) {
-        Path path = new Path(true, distance);
-        pathSegments.forEach(path::addPathSegment);
-        return path;
     }
 
     public boolean isFound() {
@@ -36,6 +38,10 @@ public class Path {
 
     public double getDistance() {
         return distance;
+    }
+
+    public long getIterations() {
+        return iterations;
     }
 
     public List<int[]> getPathSegments() {
