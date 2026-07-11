@@ -67,7 +67,7 @@ public abstract class AbstractAStarSearch implements AStarSearch {
             int row = currentCell.row;
             int column = currentCell.column;
 
-            // skipp processing entities that have worse path that the already processed one
+            // skipping outdated entities stored in the priority queue before a better path was found
             if (currentCell.g > cellDetails[row][column].g) {
                 continue;
             }
