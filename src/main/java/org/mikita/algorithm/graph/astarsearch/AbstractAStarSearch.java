@@ -63,8 +63,14 @@ public abstract class AbstractAStarSearch implements AStarSearch {
         while (!priorityQueue.isEmpty()) {
             iterations++;
             Cell currentCell = priorityQueue.remove();
+
             int row = currentCell.row;
             int column = currentCell.column;
+
+            // skipp processing entities that have worse path that the already processed one
+            if (currentCell.g > cellDetails[row][column].g) {
+                continue;
+            }
 
             if (row == destination[0] && column == destination[1]) {
                 List<int[]> pathSegments = new ArrayList<>();
@@ -93,8 +99,7 @@ public abstract class AbstractAStarSearch implements AStarSearch {
                 double nextF = nextG + nextH;
 
                 Cell nextCell = cellDetails[nextRow][nextColumn];
-                if (nextCell.f == Double.POSITIVE_INFINITY
-                        || nextCell.f > nextF) {
+                if (nextG < nextCell.g) {
                     nextCell.g = nextG;
                     nextCell.h = nextH;
                     nextCell.f = nextF;
