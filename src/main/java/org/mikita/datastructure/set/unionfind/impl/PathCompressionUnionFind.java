@@ -13,19 +13,28 @@ public class PathCompressionUnionFind implements UnionFind {
         }
     }
 
+    // without path compression, find is O(n) in the worst case;
+    // with it, operations are nearly constant time (amortized)
+    @Override
     public int find(int node) {
-        if(parents[node] == node) {
-            return node;
+        int root = node;
+
+        // find root
+        while(root != parents[root]) {
+            root = parents[root];
         }
 
-        // without path compression, find is O(n) in the worst case;
-        // with it, operations are nearly constant time (amortized)
-        int root = find(parents[node]);
-        parents[node] = root;
+        // path compression
+        while(node != root) {
+            int parent = parents[node];
+            parents[node] = root;
+            node = parent;
+        }
 
         return root;
     }
 
+    @Override
     public void union(int nodeA, int nodeB) {
         int rootA = find(nodeA);
         int rootB = find(nodeB);

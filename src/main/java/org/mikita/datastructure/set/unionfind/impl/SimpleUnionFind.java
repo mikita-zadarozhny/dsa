@@ -13,14 +13,17 @@ public class SimpleUnionFind implements UnionFind {
         }
     }
 
+    // without path compression, find is O(n) in the worst case.
     @Override
     public int find(int node) {
-        if(parents[node] == node) {
-            return node;
+        int root = node;
+
+        // find root
+        while(root != parents[root]) {
+            root = parents[root];
         }
 
-        // without path compression, find is O(n) in the worst case.
-        return find(parents[node]);
+        return root;
     }
 
     @Override
