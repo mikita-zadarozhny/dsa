@@ -30,9 +30,18 @@ Array-based fenwick tree implementation for updatable prefix sum data structure.
 Explanation is [here](docs/fenwick-tree/fenwick-tree.md).
 
 ### Sets
-- [UnionFind (a.k.a. DisjointSet)](src/main/java/org/mikita/datastructure/set/UnionFind.java) - 
-Data structure designed to union sets and check whether two elements are parts of the same set in logarithmic time.
-Path compression is included into this implementation. Ranking is not included into this implementation. 
+
+#### UnionFind (a.k.a. DisjointSet Union) 
+- [SimpleUnionFind](src/main/java/org/mikita/datastructure/set/unionfind/impl/SimpleUnionFind.java) -
+This implementation does not use path compression or union by rank. 
+As a result, trees can become deep, and operations may degrade to linear time (O(n)) in the worst case.
+- [PathCompressionUnionFind](src/main/java/org/mikita/datastructure/set/unionfind/impl/PathCompressionUnionFind.java) -
+This implementation uses path compression to flatten trees during find operations, 
+improving performance in practice. However, it does not use union by rank, 
+so worst-case guarantees are weaker.
+- [RankedPathCompressionUnionFind](src/main/java/org/mikita/datastructure/set/unionfind/impl/RankedPathCompressionUnionFind.java) -
+This implementation combines path compression and union by rank to keep trees shallow. 
+It provides near-constant amortized time complexity for all operations.
 
 ## Algorithms
 
@@ -48,4 +57,12 @@ Array-based algorithm used for efficient sorting for arrays that consists only o
 
 ### Graph
 - [Dijkstra](src/main/java/org/mikita/algorithm/graph/Dijkstra.java) -
-Graph-based algorithm used for searching the shortest path in a weighted graph.
+Search algorithm used for finding the shortest path in a weighted graph.
+- [EuclideanAStarSearch](src/main/java/org/mikita/algorithm/graph/astarsearch/impl/EuclideanAStarSearch.java) - 
+Informed search algorithm used for finding the shortest path in a weighted graph.
+This algorithm is an extended version of Dijkstra's Algorithm with a heuristic (based on Euclidean distance) 
+for improved efficiency.
+- [ManhattanAStarSearch](src/main/java/org/mikita/algorithm/graph/astarsearch/impl/ManhattanAStarSearch.java) -
+Informed search algorithm used for finding the shortest path in a weighted graph.
+This algorithm is an extended version of Dijkstra's Algorithm with a heuristic (based on Manhattan distance) 
+for improved efficiency.
