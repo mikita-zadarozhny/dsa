@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class BinaryLifting {
 
     /**
-     * lookupTable[i][j] -> 2^jth ancestor of i;
+     * lookupTable[i][j] -> (2^j)th ancestor of i;
      */
     private final int[][] lookupTable;
     private final int treeSize;
