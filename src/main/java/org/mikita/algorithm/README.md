@@ -4,9 +4,7 @@
 - [Binary Lifting](dp/binarylifting/BinaryLifting.java) -
   2D DP algorithm used for finding Kth ancestor of a node in a tree.  
 - [Kadane](dp/kadane/Kadane.java) - 
-Array-based algorithm used for finding max sub-array sum.
-  - Time Complexity is O(n).
-  - Space Complexity is O(1).
+  Array-based algorithm used for finding max sub-array sum.
 
 ## Graph
 
@@ -22,9 +20,6 @@ Array-based algorithm used for finding max sub-array sum.
   This algorithm is an extended version of Dijkstra's Algorithm with a heuristic (based on Manhattan distance)
   for improved efficiency.
 
-
 ## Two Pointer
-- [DutchNationalFlag](twopointer/DutchNationalFlag.java) - 
-Array-based algorithm used for efficient sorting for arrays that consists only of 0s, 1s, and 2s.
-  - Time Complexity is O(n).
-  - Space Complexity is O(1).
+- [DutchNationalFlag](twopointer/dutchnationalflag/DutchNationalFlag.java) - 
+  Array-based algorithm used for efficient sorting for arrays that consists only of 0s, 1s, and 2s.
