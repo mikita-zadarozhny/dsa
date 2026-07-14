@@ -23,7 +23,7 @@ public class FenwickTree {
         while (index <= size) {
             nodes[index] += delta;
             // to move to ancestor, use the following formula:
-            // ancestor(index) = index + LSB (Least Significant Bit)
+            // ancestor(index) = index + LSB (The Least Significant Bit)
             index += index & (-index);
         }
     }
@@ -35,7 +35,7 @@ public class FenwickTree {
         while (index > 0) {
             result += nodes[index];
             // to move to parent, use the following formula:
-            // parent(index) = index - LSB (Least Significant Bit)
+            // parent(index) = index - LSB (The Least Significant Bit)
             index -= index & (-index);
         }
         return result;
