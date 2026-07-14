@@ -3,6 +3,7 @@ package org.mikita.datastructure.heap;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mikita.datastructure.heap.Heap;
 
 import java.util.Comparator;
 import java.util.stream.Stream;

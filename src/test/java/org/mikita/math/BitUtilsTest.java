@@ -3,6 +3,7 @@ package org.mikita.math;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mikita.math.bit.BitUtils;
 
 import java.util.stream.Stream;
 
