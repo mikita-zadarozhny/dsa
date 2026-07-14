@@ -81,6 +81,7 @@ public class ManhattanAStarSearchTest {
 
         // then
         assertEquals(expectedDistance, actual.getDistance(), DELTA);
+        assertEquals(expectedDistance != -1.0, actual.isFound());
         assertEquals(expectedPathSegments, actual.toString());
         assertTrue(expectedMinimumIterations <= actual.getIterations());
     }
