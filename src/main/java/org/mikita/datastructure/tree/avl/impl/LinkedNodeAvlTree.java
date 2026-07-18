@@ -36,22 +36,30 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
                 } else {
                     rightChild.insert(value);
                 }
-                height = Math.max(rightChild.height + 1, height);
+                height = 1 + Math.max(getLeftHeight(), getRightHeight());
             } else if(comparison > 0) {
                 if(leftChild == null) {
                     leftChild = new Node(value, this);
                 } else {
                     leftChild.insert(value);
                 }
-                height = Math.max(leftChild.height + 1, height);
+                height = 1 + Math.max(getLeftHeight(), getRightHeight());
             } else {
                 throw new RuntimeException("Value %s is already present.".formatted(value));
             }
 
-            if(calculateBalanceFactor() >= 2 && leftChild.calculateBalanceFactor() >= 1) {
-                leftChild.ll();
-            } else if(calculateBalanceFactor() <= -2 && rightChild.calculateBalanceFactor() <= -1) {
-                rightChild.rr();
+            if (calculateBalanceFactor() >= 2) {
+                if (leftChild.calculateBalanceFactor() >= 0) {
+                    leftChild.ll();
+                } else {
+                    leftChild.lr();
+                }
+            } else if (calculateBalanceFactor() <= -2) {
+                if(rightChild.calculateBalanceFactor() <= 0) {
+                    rightChild.rr();
+                } else {
+                    rightChild.rl();
+                }
             }
         }
 
@@ -114,21 +122,54 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
                 LinkedNodeAvlTree.this.root = this;
             }
 
-            prevParent.height -= 2;
-            this.height = Math.max(getLeftHeight() + 1, getRightHeight() + 1);
+            prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
+            this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
         }
+
+        /**
+         * left-right rotation
+
+         * ## 1st case (added node with value 2), the following rotation is expected
+         *       3(3)                 3(3)                2(2)
+         *      /                    /                   /   \
+         *    1(2)        ->       2(2)       ->      1(1)   3(1)
+         *       \                /
+         *        2(1)          1(1)
+
+         */
+        private void lr() {
+            Node prevParent = this.parent;
+            Node prevRightChild = this.rightChild;
+            Node prevRightLeftChild = prevRightChild.leftChild;
+
+            this.parent = prevRightChild;
+            prevParent.leftChild = prevRightChild;
+            prevRightChild.parent = prevParent;
+            prevRightChild.leftChild = this;
+            this.rightChild = prevRightLeftChild;
+
+            if(prevRightLeftChild != null) {
+                prevRightLeftChild.parent = this;
+            }
+
+            this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
+            prevRightChild.height = 1 + Math.max(prevRightChild.getLeftHeight(), prevRightChild.getRightHeight());
+            prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
+            parent.ll();
+        }
+
 
         /**
          * right-right rotation
 
          * ## 1st case (added node with value 1), the following rotation is expected
-         *  3(3)                        2(2)
+         *  1(3)                        2(2)
          *     \                       /   \
          *     2(2)        ->       1(1)   3(1)
          *        \
-         *        1(1)
+         *        3(1)
 
-         * ## 2nd case (added node with value 1), the following rotation is expected (unreal case)
+         * ## 2nd case (added node with value 7), the following rotation is expected (unreal case)
          *        2(3)                    5(3)
          *       /    \                  /   \
          *     1(1)   5(2)    ->       2(2)  7(1)
@@ -160,8 +201,41 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
                 LinkedNodeAvlTree.this.root = this;
             }
 
-            prevParent.height -= 2;
-            this.height = Math.max(getLeftHeight() + 1, getRightHeight() + 1);
+            prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
+            this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
+        }
+
+        /**
+         * left-right rotation
+
+         * ## 1st case (added node with value 1), the following rotation is expected
+         *    1(3)                1(3)                        2(2)
+         *       \                   \                       /   \
+         *       3(2)     ->         2(2)        ->       1(1)   3(1)
+         *      /                       \
+         *    2(1)                      3(1)
+
+         */
+        private void rl() {
+            Node prevParent = this.parent;
+            Node prevLeftChild = this.leftChild;
+            Node prevLeftRightChild = prevLeftChild.rightChild;
+
+            this.parent = prevLeftChild;
+            prevParent.rightChild = prevLeftChild;
+
+            prevLeftChild.parent = prevParent;
+            prevLeftChild.rightChild = this;
+            this.leftChild = prevLeftRightChild;
+
+            if(prevLeftRightChild != null) {
+                prevLeftRightChild.parent = this;
+            }
+
+            this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
+            prevLeftChild.height = 1 + Math.max(prevLeftChild.getLeftHeight(), prevLeftChild.getRightHeight());
+            prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
+            parent.rr();
         }
     }
 
