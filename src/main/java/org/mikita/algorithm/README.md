@@ -8,6 +8,11 @@
 
 ## Graph
 
+### Minimal Spanning Tree
+- [Kruskal](graph/mst/kruskal/Kruskal.java) -
+  Greedy algorithm used for constructing a minimum spanning tree in a weighted graph by iteratively 
+  selecting the smallest edge that preserves a valid (acyclic) structure.
+
 ### Shortest Path
 - [Dijkstra](graph/shortestpath/dijkstra/Dijkstra.java) -
   Search algorithm used for finding the shortest path in a weighted graph.

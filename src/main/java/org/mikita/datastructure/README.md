@@ -25,9 +25,10 @@
   It provides near-constant amortized time complexity for all operations.
 
 ## Heap
-- [Heap](heap/Heap.java) -
-  Array-based implementation of a Heap data structure. Heap are used to find the element
-  that posses the highest value out of all the values stored in this data structure.
+- [ArrayHeap](heap/impl/ArrayHeap.java) -
+  Array-based implementation of a Heap data structure. Heap is used to find the element
+  that posses either the highest or the lowest value out of all the values stored in this 
+  data structure. This implementation supports both max heap and min heap modes.
 
 ## Tree
 
