@@ -16,7 +16,7 @@ public class LinkedNodePrefixTree implements PrefixTree {
             this.wordEnd = false;
         }
 
-        private void addWord(String word, int index) {
+        private void add(String word, int index) {
             if(index == word.length() - 1) {
                 wordEnd = true;
                 return;
@@ -24,7 +24,7 @@ public class LinkedNodePrefixTree implements PrefixTree {
 
             char nextLetter = word.charAt(index);
             children.putIfAbsent(nextLetter, new Node());
-            children.get(nextLetter).addWord(word, index + 1);
+            children.get(nextLetter).add(word, index + 1);
         }
 
         private boolean exists(String word, int index) {
@@ -52,7 +52,7 @@ public class LinkedNodePrefixTree implements PrefixTree {
         }
 
         children.putIfAbsent(word.charAt(0), new Node());
-        children.get(word.charAt(0)).addWord(word, 1);
+        children.get(word.charAt(0)).add(word, 1);
     }
 
     @Override
