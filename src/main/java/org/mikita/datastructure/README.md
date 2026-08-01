@@ -37,6 +37,13 @@
   Array-based fenwick tree implementation for updatable prefix sum data structure.
   Explanation is [here](/docs/fenwick-tree/fenwick-tree.md).
 
+### Prefix Tree
+- [LinkedNodePrefixTree](tree/prefix/impl/LinkedNodePrefixTree.java)
+  Linked Node-based implementation of a prefix tree data structure (a.k.a. Trie, which is derived 
+  from a word `reTRIEval`). This data structure serves to store and retrieve strings by breaking
+  them down into one-character tokens and storing them in a tree data structure. It is used
+  for an efficient word lookup.
+
 ### Segment Tree
 - [RangeSumArraySegmentTree](tree/segment/impl/RangeSumArraySegmentTree.java) -
   Array-based implementation for a segment tree data structure for looking for a sum of elements of a sub-array.

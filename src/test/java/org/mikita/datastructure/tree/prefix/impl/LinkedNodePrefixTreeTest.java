@@ -18,7 +18,10 @@ class LinkedNodePrefixTreeTest {
                 Arguments.of(VOCABULARY, "Helicopter", true),
                 Arguments.of(VOCABULARY, "Helicopterr", false),
                 Arguments.of(VOCABULARY, "helicopter", false),
-                Arguments.of(VOCABULARY, "Helicopte", false)
+                Arguments.of(VOCABULARY, "Helicopte", false),
+                Arguments.of(VOCABULARY, "Hel", false),
+                Arguments.of(VOCABULARY, "Hello", true),
+                Arguments.of(VOCABULARY, "hello", true)
         );
     }
 
