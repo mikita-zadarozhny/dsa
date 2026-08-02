@@ -21,21 +21,25 @@ class LinkedNodePrefixTreeTest {
         VOCABULARY.add("hello");
         VOCABULARY.add("world");
         VOCABULARY.add("Helicopter");
+        VOCABULARY.add("  ");
         VOCABULARY.add(null); // should be ignored
     }
 
     public static Stream<Arguments> prefixTreeWordSearch_HappyTestCases() {
         return Stream.of(
                 Arguments.of(VOCABULARY, "Helicopter", true),
-                Arguments.of(VOCABULARY, "Helicopterr", false),
-                Arguments.of(VOCABULARY, "helicopter", false),
-                Arguments.of(VOCABULARY, "Helicopte", false),
-                Arguments.of(VOCABULARY, "Hel", false),
                 Arguments.of(VOCABULARY, "Hello", true),
                 Arguments.of(VOCABULARY, "hello", true),
+                Arguments.of(VOCABULARY, "  ", true),
+
                 // even though 'null' is present in the vocabulary,
                 // it will be ignored by the prefix tree.
-                Arguments.of(VOCABULARY, null, false)
+                Arguments.of(VOCABULARY, null, false),
+                Arguments.of(VOCABULARY, "   ", false),
+                Arguments.of(VOCABULARY, "Hel", false),
+                Arguments.of(VOCABULARY, "Helicopterr", false),
+                Arguments.of(VOCABULARY, "helicopter", false),
+                Arguments.of(VOCABULARY, "Helicopte", false)
         );
     }
 
