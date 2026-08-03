@@ -19,7 +19,7 @@ public class FixedSizeArrayBasedBitArray implements BitArray {
         validate(index);
 
         int targetArray = index / Long.SIZE;
-        int targetBit = size % Long.SIZE;
+        int targetBit = index % Long.SIZE;
         bits[targetArray] = bits[targetArray] | (1L << targetBit);
     }
 
@@ -28,7 +28,7 @@ public class FixedSizeArrayBasedBitArray implements BitArray {
         validate(index);
 
         int targetArray = index / Long.SIZE;
-        int targetBit = size % Long.SIZE;
+        int targetBit = index % Long.SIZE;
         bits[targetArray] = bits[targetArray] ^ (1L << targetBit);
 
         return (bits[targetArray] & (1L << targetBit)) != 0;
@@ -39,7 +39,7 @@ public class FixedSizeArrayBasedBitArray implements BitArray {
         validate(index);
 
         int targetArray = index / Long.SIZE;
-        int targetBit = size % Long.SIZE;
+        int targetBit = index % Long.SIZE;
         bits[targetArray] = bits[targetArray] & (~(1L << targetBit));
     }
 
@@ -48,7 +48,7 @@ public class FixedSizeArrayBasedBitArray implements BitArray {
         validate(index);
 
         int targetArray = index / Long.SIZE;
-        int targetBit = size % Long.SIZE;
+        int targetBit = index % Long.SIZE;
 
         return (bits[targetArray] & (1L << targetBit)) != 0;
     }
