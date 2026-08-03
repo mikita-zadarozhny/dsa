@@ -1,5 +1,7 @@
 package org.mikita.datastructure.probabilistic.bloomfilter.impl;
 
+import org.mikita.datastructure.bit.bitarray.BitArray;
+import org.mikita.datastructure.bit.bitarray.impl.FixedSizeArrayBasedBitArray;
 import org.mikita.datastructure.probabilistic.bloomfilter.BloomFilter;
 
 import java.math.BigInteger;
@@ -10,12 +12,12 @@ import java.security.NoSuchAlgorithmException;
 public class SimpleBloomFilter<T> implements BloomFilter<T> {
 
     private final int size;
-    private final boolean[] bitArray;
+    private final BitArray bitArray;
     private final int hashIterations;
 
     public SimpleBloomFilter(int size, int hashIterations) {
         this.size = size;
-        this.bitArray = new boolean[size];
+        this.bitArray = new FixedSizeArrayBasedBitArray(size);
         this.hashIterations = hashIterations;
     }
 
@@ -25,7 +27,7 @@ public class SimpleBloomFilter<T> implements BloomFilter<T> {
         for(int i = 0; i < hashIterations; i++) {
             String seededItem = "%d:%d".formatted(hashCode, i);
             int bitIndex = convertToMD5(seededItem).mod(BigInteger.valueOf(size)).intValue();
-            bitArray[bitIndex] = true;
+            bitArray.set(bitIndex);
         }
     }
 
@@ -35,7 +37,7 @@ public class SimpleBloomFilter<T> implements BloomFilter<T> {
         for(int i = 0; i < hashIterations; i++) {
             String seededItem = "%d:%d".formatted(hashCode, i);
             int bitIndex = convertToMD5(seededItem).mod(BigInteger.valueOf(size)).intValue();
-            if(!bitArray[bitIndex]) {
+            if(!bitArray.get(bitIndex)) {
                 return false;
             }
         }

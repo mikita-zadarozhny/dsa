@@ -19,7 +19,7 @@ class SimpleBloomFilterTest {
                 Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 10, true),
                 Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 12, true),
                 Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 321, true),
-                
+
                 Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, -1, false),
                 Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 0, false),
                 Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 2, false),
