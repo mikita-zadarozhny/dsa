@@ -71,6 +71,10 @@ public class FixedSizeArrayBasedBitArray implements BitArray {
         return (words[targetWord] & (1L << targetBit)) != 0;
     }
 
+    public long[] getWords() {
+        return words.clone();
+    }
+
     private void validate(int index) {
         if(index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(index);
