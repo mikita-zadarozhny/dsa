@@ -15,10 +15,18 @@ public class SimpleBloomFilter<T> implements BloomFilter<T> {
     private final BitArray bitArray;
     private final int hashIterations;
 
+    private final MessageDigest md5;
+
     public SimpleBloomFilter(int size, int hashIterations) {
         this.size = size;
         this.bitArray = new FixedSizeArrayBasedBitArray(size);
         this.hashIterations = hashIterations;
+
+        try {
+            this.md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("MD5 algorithm not found", e);
+        }
     }
 
     @Override
@@ -44,13 +52,8 @@ public class SimpleBloomFilter<T> implements BloomFilter<T> {
         return true;
     }
 
-    private static BigInteger convertToMD5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] hashBytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
-            return new BigInteger(hashBytes);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("MD5 algorithm not found", e);
-        }
+    private BigInteger convertToMD5(String input) {
+        byte[] hashBytes = md5.digest(input.getBytes(StandardCharsets.UTF_8));
+        return new BigInteger(hashBytes);
     }
 }
