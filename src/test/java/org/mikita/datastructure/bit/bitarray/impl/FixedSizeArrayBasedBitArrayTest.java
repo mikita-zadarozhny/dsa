@@ -41,7 +41,7 @@ class FixedSizeArrayBasedBitArrayTest {
 
     @ParameterizedTest
     @MethodSource("initializationFailureTestCases")
-    void shouldInitializeBitArray(int size) {
+    void shouldThrowException_whenInitializeBitArray_andSizeIsInvalid(int size) {
         // when
         IllegalArgumentException actual = assertThrows(IllegalArgumentException.class,
                 () -> new FixedSizeArrayBasedBitArray(size));

@@ -10,33 +10,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleBloomFilterTest {
 
-    public static Stream<Arguments> bloomFilterTestCases() {
-        return Stream.of(
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 1, true),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 4, true),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 7, true),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 9, true),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 10, true),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 12, true),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 321, true),
+    public static final int[] STORED_ITEMS = {1, 4, 7, 9, 10, 12, 321};
 
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, -1, false),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 0, false),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 2, false),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 312, false),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, 400, false),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, Integer.MIN_VALUE, false),
-                Arguments.of(new int[]{1, 4, 7, 9, 10, 12, 321}, Integer.MAX_VALUE, false)
+    public static Stream<Arguments> storedItems() {
+        return Stream.of(
+                Arguments.of(1),
+                Arguments.of(4),
+                Arguments.of(7),
+                Arguments.of(9),
+                Arguments.of(10),
+                Arguments.of(12),
+                Arguments.of(321)
         );
     }
 
     @ParameterizedTest
-    @MethodSource("bloomFilterTestCases")
-    void contains(int[] items, int targetItem, boolean expected) {
+    @MethodSource("storedItems")
+    void shouldContainItem_whenItemIsStored(int targetItem) {
         // given
         SimpleBloomFilter<Integer> simpleBloomFilter = new SimpleBloomFilter<>(10_000, 5);
 
-        for (int item : items) {
+        for (int item : STORED_ITEMS) {
             simpleBloomFilter.add(item);
         }
 
@@ -44,6 +38,35 @@ class SimpleBloomFilterTest {
         boolean actual = simpleBloomFilter.contains(targetItem);
 
         // then
-        assertEquals(expected, actual);
+        assertTrue(actual);
+    }
+
+    public static Stream<Arguments> absentItemsWithoutHashCollisions() {
+        return Stream.of(
+                Arguments.of(-1),
+                Arguments.of(0),
+                Arguments.of(2),
+                Arguments.of(312),
+                Arguments.of(400),
+                Arguments.of(Integer.MIN_VALUE),
+                Arguments.of(Integer.MAX_VALUE)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("absentItemsWithoutHashCollisions")
+    void shouldNotContainItem_whenItemWasNotAddedAndNoHashCollisionOccurs(int targetItem) {
+        // given
+        SimpleBloomFilter<Integer> simpleBloomFilter = new SimpleBloomFilter<>(10_000, 5);
+
+        for (int item : STORED_ITEMS) {
+            simpleBloomFilter.add(item);
+        }
+
+        // when
+        boolean actual = simpleBloomFilter.contains(targetItem);
+
+        // then
+        assertFalse(actual);
     }
 }

@@ -25,7 +25,7 @@ class LinkedNodePrefixTreeTest {
         VOCABULARY.add(null); // should be ignored
     }
 
-    public static Stream<Arguments> prefixTreeWordSearch_HappyTestCases() {
+    public static Stream<Arguments> prefixTreeWordSearchHappyTestCases() {
         return Stream.of(
                 Arguments.of(VOCABULARY, "Helicopter", true),
                 Arguments.of(VOCABULARY, "Hello", true),
@@ -44,7 +44,7 @@ class LinkedNodePrefixTreeTest {
     }
 
     @ParameterizedTest
-    @MethodSource("prefixTreeWordSearch_HappyTestCases")
+    @MethodSource("prefixTreeWordSearchHappyTestCases")
     void shouldCheckWhetherExists_whenQueryIsValid(List<String> vocabulary, String query, boolean expected) {
 
         // given
