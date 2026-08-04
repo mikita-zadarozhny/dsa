@@ -8,8 +8,8 @@ public class FixedSizeArrayBasedBitArray implements BitArray {
     private final long[] words;
 
     public FixedSizeArrayBasedBitArray(int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("Size cannot be negative");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size should be more than 0");
         }
 
         this.size = size;
