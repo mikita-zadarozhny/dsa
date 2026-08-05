@@ -99,7 +99,7 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
          *  0(1)  3(1)                     3(1)  5(1)
 
          */
-        private void ll() {
+        private Node ll() {
             Node prevParent = this.parent;
             Node prevRightChild = this.rightChild;
 
@@ -124,6 +124,8 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
 
             prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
             this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
+
+            return this;
         }
 
         /**
@@ -137,7 +139,7 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
          *        2(1)          1(1)
 
          */
-        private void lr() {
+        private Node lr() {
             Node prevParent = this.parent;
             Node prevRightChild = this.rightChild;
             Node prevRightLeftChild = prevRightChild.leftChild;
@@ -155,7 +157,8 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
             this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
             prevRightChild.height = 1 + Math.max(prevRightChild.getLeftHeight(), prevRightChild.getRightHeight());
             prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
-            parent.ll();
+
+            return parent.ll();
         }
 
 
@@ -177,7 +180,7 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
          *        3(1)   7(1)       1(1)   3(1)
 
          */
-        private void rr() {
+        private Node rr() {
             Node prevParent = this.parent;
             Node prevLeftChild = this.leftChild;
 
@@ -203,10 +206,12 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
 
             prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
             this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
+
+            return this;
         }
 
         /**
-         * left-right rotation
+         * right-left rotation
 
          * ## 1st case (added node with value 1), the following rotation is expected
          *    1(3)                1(3)                        2(2)
@@ -216,7 +221,7 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
          *    2(1)                      3(1)
 
          */
-        private void rl() {
+        private Node rl() {
             Node prevParent = this.parent;
             Node prevLeftChild = this.leftChild;
             Node prevLeftRightChild = prevLeftChild.rightChild;
@@ -235,7 +240,65 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
             this.height = 1 + Math.max(this.getLeftHeight(), this.getRightHeight());
             prevLeftChild.height = 1 + Math.max(prevLeftChild.getLeftHeight(), prevLeftChild.getRightHeight());
             prevParent.height = 1 + Math.max(prevParent.getLeftHeight(), prevParent.getRightHeight());
-            parent.rr();
+
+            return parent.rr();
+        }
+
+        private Node delete(T value) {
+            int comparison = comparator.compare(this.value, value);
+
+            if(comparison < 0) {
+                if(rightChild != null) {
+                    rightChild = rightChild.delete(value);
+                }
+            } else if(comparison > 0) {
+                if(leftChild != null) {
+                    leftChild = leftChild.delete(value);
+                }
+            } else {
+                if(leftChild == null || rightChild == null) {
+                    Node replacement = leftChild != null ? leftChild : rightChild;
+
+                    if (replacement != null) {
+                        replacement.parent = parent;
+                    }
+
+                    return replacement;
+                } else {
+                    Node tmp = minValueNode(rightChild);
+
+                    this.value = tmp.value;
+
+                    rightChild = rightChild.delete(tmp.value);
+                }
+            }
+
+            height = 1 + Math.max(getLeftHeight(), getRightHeight());
+
+            if (calculateBalanceFactor() >= 2) {
+                if (leftChild.calculateBalanceFactor() >= 0) {
+                    return leftChild.ll();
+                } else {
+                    return leftChild.lr();
+                }
+            } else if (calculateBalanceFactor() <= -2) {
+                if(rightChild.calculateBalanceFactor() <= 0) {
+                    return rightChild.rr();
+                } else {
+                    return rightChild.rl();
+                }
+            }
+
+            return this;
+        }
+
+        private Node minValueNode(Node node) {
+            Node current = node;
+
+            while (current.leftChild!= null)
+                current = current.leftChild;
+
+            return current;
         }
     }
 
@@ -262,7 +325,15 @@ public class LinkedNodeAvlTree<T> implements AvlTree<T> {
 
     @Override
     public void delete(T value) {
-        throw new RuntimeException("Not Implemented");
+        if(Objects.isNull(value)) {
+            throw new RuntimeException("Value cannot be null.");
+        }
+
+        if(root == null) {
+            return;
+        }
+
+        root = root.delete(value);
     }
 
     public List<T> toList() {
