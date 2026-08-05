@@ -25,9 +25,10 @@
   It provides near-constant amortized time complexity for all operations.
 
 ## Heap
-- [Heap](heap/Heap.java) -
-  Array-based implementation of a Heap data structure. Heap are used to find the element
-  that posses the highest value out of all the values stored in this data structure.
+- [ArrayHeap](heap/impl/ArrayHeap.java) -
+  Array-based implementation of a Heap data structure. Heap is used to find the element
+  that posses either the highest or the lowest value out of all the values stored in this 
+  data structure. This implementation supports both max heap and min heap modes.
 
 ## Tree
 
@@ -35,6 +36,13 @@
 - [FenwickTree](tree/fenwick/FenwickTree.java) -
   Array-based fenwick tree implementation for updatable prefix sum data structure.
   Explanation is [here](/docs/fenwick-tree/fenwick-tree.md).
+
+### Prefix Tree
+- [LinkedNodePrefixTree](tree/prefix/impl/LinkedNodePrefixTree.java)
+  Linked Node-based implementation of a prefix tree data structure (a.k.a. Trie, which is derived 
+  from a word `reTRIEval`). This data structure serves to store and retrieve strings by breaking
+  them down into one-character tokens and storing them in a tree data structure. It is used
+  for an efficient word lookup.
 
 ### Segment Tree
 - [RangeSumArraySegmentTree](tree/segment/impl/RangeSumArraySegmentTree.java) -
